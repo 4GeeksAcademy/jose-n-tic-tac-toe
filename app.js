@@ -1,12 +1,10 @@
 // Programa para jugar Tic-Tac_toe en JavaScript
 
-let tabla = [[1,2,3],[4,5,6],[7,8,9]];
-let flag = true;
-
+// Primero se crean las siguientes funciones para el juego
 
 // Funcion para asignar valor en la posicion dada
 function asignarValorenPosicion(arr,pos,valor){
-    let cont = 0
+    let cont = 0;
     for (let i = 0; i < arr.length; i++){
         for(let j=0;j < arr[i].length; j++){
             cont += 1;
@@ -97,26 +95,69 @@ function verificarGanador(arr){
     }
 
 
+//Funcion para verificar si hay empate en el juego
+function verificarEmpate(arr){
+    for (let i = 0; i < arr.length;  i++){
+        for (let j = 0; j < arr[i].length; j++){
+            if(typeof(arr[i][j]) == 'number') return false;
+        }
+    }
+    return true;
+}
 
 
 
+// Comienzo del programa
+
+let tabla = [[1,2,3],[4,5,6],[7,8,9]];
+let signoUser = '';
+let signoPC = '';
+var readline = require('readline-sync');
+
+while (true){
+    signoUser = readline.question("Elige 'X' u 'O': ");
+    if (signoUser == 'X') {
+        signoPC = 'O';
+        break;
+    }
+    else if (signoUser == 'O') {
+        signoPC = 'X'
+        break;
+    }
+    else console.log('Elige un valor correcto "X" u "O"');
+
+}
+
+console.log("Valor de Usuario:",signoUser);
+console.log("Valor de Computadora:",signoPC);
 
 
-//Falta la funcion verificar si hay un ganador por ronda, se puede llevar un contador que si luego de haber juagdo 3 veces X u O empiece a verificar
+console.log(tabla);
+
+while (true){
 
     
+    eligePos(tabla,signoUser);
+    console.log('Jugada de Usuario: ');
+    console.log(tabla);
+
+    if(verificarGanador(tabla) == 'X' || verificarGanador(tabla) == 'O'){
+        console.log("El jugador "+verificarGanador(tabla)+" ha ganado la partida");
+        break;
+   }
+   if (verificarEmpate(tabla)){
+    console.log('Hay un empate');
+    break;
+   }
+   juegaComputadora(tabla,signoPC);
+   console.log('Jugada de la Computadora: ');
+   console.log(tabla);
+   if(verificarGanador(tabla) == 'X' || verificarGanador(tabla) == 'O'){
+    console.log("El jugador "+verificarGanador(tabla)+" ha ganado la partida");
+    break;
+    }
 
 
-tabla[0][0] = 'X';
-var readline = require('readline-sync');
-let signo = readline.question("Elige 'X' u 'O': ");
 
 
-
-
-
-eligePos(tabla,signo);
-console.log(tabla);
-juegaComputadora(tabla,'O');
-console.log(tabla);
-
+}
